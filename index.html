@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#ffffff" />
- 
+  <title>Sistema Viral Anticrise</title>
 
-  <!-- Preloads do vídeo (rápido) -->
+  <!-- Preloads do vídeo -->
   <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
   <link rel="preload" href="https://scripts.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/players/698f02bb92e29505e05c2a20/v4/player.js" as="script">
   <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
@@ -38,7 +38,6 @@
       --g2:#00c853;
       --g3:#00ffa3;
     }
-
     *{ box-sizing:border-box; }
     body{
       margin:0;
@@ -49,7 +48,7 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* TARJA VERMELHA */
+    /* TARJA */
     .topbar{
       position: sticky;
       top: 0;
@@ -70,22 +69,10 @@
       align-items:center;
       gap:10px;
     }
-    .eye{
-      width:18px;
-      height:18px;
-      flex:0 0 18px;
-      display:inline-block;
-    }
+    .eye{ width:18px; height:18px; flex:0 0 18px; display:inline-block; }
 
-    .wrap{
-      display:flex;
-      justify-content:center;
-    }
-    .container{
-      width:100%;
-      max-width: var(--max);
-      padding: 18px 16px 36px;
-    }
+    .wrap{ display:flex; justify-content:center; }
+    .container{ width:100%; max-width: var(--max); padding: 18px 16px 36px; }
 
     h1{
       margin: 10px 0 10px;
@@ -94,7 +81,6 @@
       font-weight: 950;
       letter-spacing: -0.4px;
     }
-
     .hl-strong{
       display:inline-block;
       padding: 2px 6px;
@@ -102,7 +88,6 @@
       background: linear-gradient(90deg, rgba(0,255,138,.14), rgba(0,200,83,.10));
       border: 1px solid rgba(0,200,83,.20);
     }
-
     .money{
       background: linear-gradient(90deg, var(--g2), var(--g3));
       -webkit-background-clip:text;
@@ -111,7 +96,6 @@
       font-weight: 1000;
       white-space: nowrap;
     }
-
     .sub{
       margin: 0 0 10px;
       color: #3f4b45;
@@ -119,7 +103,6 @@
       line-height: 1.35;
       font-weight: 650;
     }
-
     .hint{
       margin: 0 0 14px;
       font-size: 14px;
@@ -136,6 +119,9 @@
       padding: 12px;
     }
 
+    /* IMPORTANTE: wrapper relativo pra overlay funcionar */
+    .videoWrap{ position: relative; border-radius: 14px; overflow: hidden; }
+
     vturb-smartplayer{
       width:100% !important;
       max-width: 400px !important;
@@ -143,11 +129,38 @@
       margin: 0 auto;
     }
 
-    .ctaWrap{
-      margin-top: 14px;
-      display:none;
+    /* OVERLAY para capturar o 1º toque e iniciar o delay */
+    .playOverlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      background: rgba(0,0,0,0); /* invisível */
+      z-index: 10;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .playOverlay .badge{
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(0,0,0,.08);
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 12.5px;
+      color:#0b0f0c;
+      box-shadow: 0 10px 22px rgba(0,0,0,.12);
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .playDot{
+      width:10px;height:10px;border-radius:999px;
+      background: linear-gradient(135deg, var(--g1), var(--g2));
+      box-shadow: 0 10px 20px rgba(0,200,83,.25);
     }
 
+    .ctaWrap{ margin-top: 14px; display:none; }
     .btn{
       width:100%;
       border:0;
@@ -165,8 +178,6 @@
       transition: transform .18s ease;
     }
     .btn:active{ transform: scale(.985); }
-
-    /* brilho transpassando só no botão */
     .btn::before{
       content:"";
       position:absolute;
@@ -190,10 +201,7 @@
       100% { left:140%; opacity:0; }
     }
 
-    .testimonials{
-      display:none;
-      margin-top: 18px;
-    }
+    .testimonials{ display:none; margin-top: 18px; }
     .disclaimer{
       margin-top: 18px;
       padding: 12px;
@@ -217,7 +225,6 @@
 </head>
 
 <body>
-  <!-- TARJA -->
   <div class="topbar" aria-label="Ao vivo">
     <div class="inner">
       <svg class="eye" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -245,7 +252,18 @@
       </p>
 
       <section class="videoCard" aria-label="Vídeo">
-        <vturb-smartplayer id="vid-698f02bb92e29505e05c2a20" style="display:block;margin:0 auto;width:100%;max-width:400px;"></vturb-smartplayer>
+        <div class="videoWrap" id="videoWrap">
+          <!-- Overlay: CAPTURA o primeiro toque -->
+          <div class="playOverlay" id="playOverlay" role="button" aria-label="Iniciar vídeo">
+            <div class="badge">
+              <span class="playDot"></span>
+              Toque no vídeo para iniciar
+            </div>
+          </div>
+
+          <vturb-smartplayer id="vid-698f02bb92e29505e05c2a20" style="display:block;margin:0 auto;width:100%;max-width:400px;"></vturb-smartplayer>
+        </div>
+
         <script type="text/javascript">
           var s=document.createElement("script");
           s.src="https://scripts.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/players/698f02bb92e29505e05c2a20/v4/player.js";
@@ -260,7 +278,6 @@
       </section>
 
       <section class="testimonials" id="testimonials" aria-label="Depoimentos">
-        <!-- (mantive simples; você pode colocar os longos depois) -->
         <div style="margin:16px 0 10px;font-weight:950;">DEPOIMENTOS (COMENTÁRIOS)</div>
         <div style="background:#fff;border:1px solid #e7ece9;border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 8px 18px rgba(0,0,0,.06);">
           “Eu não apareço e comecei a ter resultado na rotina semanal.”
@@ -286,48 +303,47 @@
 
   <script>
     const CTA_URL = "https://lastlink.com/p/C0C922361/checkout-payment";
-    const DELAY_MS = 26 * 60 * 1000 + 37 * 1000;
+    const DELAY_MS = const DELAY_MS = 10 * 1000;
+;
 
     // event id p/ deduplicação browser + server
     const EVENT_ID = "sv-" + Math.random().toString(36).slice(2);
 
-    // ===== Tarja vermelha: texto no formato que você pediu (sem "estimativa") =====
+    // TARJA (seu padrão)
     (function(){
       const el = document.getElementById('liveText');
-
       function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-
       let n = randInt(696, 820);
       const t0 = Date.now();
-      const stabilizeAfterMs = 3 * 60 * 1000; // 3 min
+      const stabilizeAfterMs = 3 * 60 * 1000;
 
       function updateText(){
         el.textContent = `${n} pessoas estão assistindo esse vídeo agora`;
       }
-
       function tick(){
         const elapsed = Date.now() - t0;
-
         if(elapsed >= stabilizeAfterMs){
           n = (Math.random() < 0.5) ? 903 : 904;
         } else {
           const step = randInt(-18, 28);
           n = Math.max(696, Math.min(940, n + step));
         }
-
         updateText();
       }
-
       tick();
       setInterval(tick, 10000);
     })();
 
-    // ===== Delay começa quando a pessoa interage com o player =====
+    // ====== DELAY robusto: inicia no primeiro toque (overlay ou clique direto no player) ======
     let started = false;
 
     function startDelay(){
       if(started) return;
       started = true;
+
+      // Remove overlay quando iniciar
+      const overlay = document.getElementById('playOverlay');
+      if(overlay) overlay.style.display = 'none';
 
       setTimeout(() => {
         document.getElementById('ctaWrap').style.display = 'block';
@@ -336,10 +352,19 @@
       }, DELAY_MS);
     }
 
-    // Inicia ao tocar/clicar no player
-    document.addEventListener('pointerdown', function(e){
-      if(e.target.closest('vturb-smartplayer')) startDelay();
-    }, { passive:true });
+    // Overlay captura 1º toque SEM depender de iframe/shadow-dom
+    const overlay = document.getElementById('playOverlay');
+    if(overlay){
+      overlay.addEventListener('click', startDelay);
+      overlay.addEventListener('pointerdown', startDelay, {passive:true});
+    }
+
+    // Backup: clique direto no componente
+    const playerEl = document.querySelector('vturb-smartplayer');
+    if(playerEl){
+      playerEl.addEventListener('click', startDelay);
+      playerEl.addEventListener('pointerdown', startDelay, {passive:true});
+    }
 
     // Clique no CTA
     document.getElementById('ctaBtn').addEventListener('click', function(){
@@ -362,5 +387,3 @@
   </script>
 </body>
 </html>
-
-
