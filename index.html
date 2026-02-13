@@ -3,9 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#ffffff" />
   <title>Sistema Viral Anticrise</title>
+  <meta name="description" content="Como pessoas comuns estão construindo renda semanal com vídeos anônimos e um passo a passo simples pelo celular." />
 
-  <!-- Meta Pixel -->
+  <!-- Meta Pixel (Browser) -->
   <script>
     !function(f,b,e,v,n,t,s){
       if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -20,184 +22,465 @@
   </script>
 
   <style>
+    :root{
+      --bg:#ffffff;
+      --text:#0b0f0c;
+      --muted:#55615a;
+      --card:#f6f8f7;
+      --stroke:#e7ece9;
+
+      /* Verde mais chamativo, mas não neon “estourado” */
+      --g1:#00ff8a;
+      --g2:#00c853;
+      --g3:#00ffa3;
+
+      --radius: 18px;
+      --max: 420px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
     body{
       margin:0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
-      background:#ffffff;
-      color:#111;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
+    .topbar-live{
+      background:#d01f2a; /* tarja vermelha */
+      color:#fff;
+      padding: 15px 14px;
+      display:flex;
+      justify-content:center;
+    }
+    .topbar-live .inner{
+      width:100%;
+      max-width: var(--max);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .live-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      letter-spacing:.3px;
+      font-size: 12.5px;
+    }
+    .eye{
+      width:18px;
+      height:18px;
+      display:inline-block;
+      flex: 0 0 18px;
+    }
+    .live-right{
+      text-align:right;
+      line-height:1.1;
+    }
+    .live-count{
+      font-weight:1000;
+      font-size: 13px;
+      letter-spacing:.3px;
+    }
+    .live-note{
+      font-size: 10.5px;
+      opacity:.9;
+      font-weight:700;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      justify-content:center;
+    }
     .container{
-      max-width:420px;
-      margin:0 auto;
-      padding:20px 16px 40px;
-    }
-
-    .brand{
-      text-align:center;
-      font-weight:800;
-      font-size:12px;
-      letter-spacing:1px;
-      margin-bottom:14px;
-    }
-    .brand span{
-      color:#14d97b;
+      width:100%;
+      max-width: var(--max);
+      padding: 18px 16px 34px;
     }
 
     h1{
-      font-size:22px;
-      line-height:1.2;
-      font-weight:800;
-      margin-bottom:10px;
+      margin: 10px 0 10px;
+      font-size: 21px;          /* menor que antes */
+      line-height: 1.18;
+      letter-spacing: -0.4px;
+      font-weight: 950;
     }
 
-    .highlight{
-      background: linear-gradient(90deg,#00d26a,#00ffa3);
+    .hl-strong{
+      display:inline-block;
+      padding: 2px 6px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, rgba(0,255,138,.14), rgba(0,200,83,.10));
+      border: 1px solid rgba(0,200,83,.20);
+    }
+
+    .money{
+      background: linear-gradient(90deg, var(--g2), var(--g3));
       -webkit-background-clip:text;
       background-clip:text;
-      color:transparent;
-      font-weight:900;
+      color: transparent;
+      font-weight: 1000;
+      white-space: nowrap;
     }
 
     .sub{
-      font-size:14px;
-      color:#444;
-      line-height:1.35;
-      margin-bottom:16px;
+      margin: 0 0 10px;
+      color: #3f4b45;
+      font-size: 14px;          /* menor */
+      line-height: 1.35;
+      font-weight: 650;
     }
 
-    .video-box{
-      border-radius:16px;
-      overflow:hidden;
-      box-shadow:0 10px 30px rgba(0,0,0,.15);
-      margin-bottom:18px;
+    .hint{
+      margin: 0 0 14px;
+      font-size: 14px;          /* mesmo tamanho da subheadline */
+      line-height: 1.35;
+      font-weight: 800;
+      color: #0a8f4a;           /* verde */
     }
 
-    .cta{
+    .videoCard{
+      background: linear-gradient(180deg, #ffffff, #fbfcfb);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 25px rgba(0,0,0,.10);
+      padding: 12px;
+    }
+
+    vturb-smartplayer{
+      width:100% !important;
+      max-width: 400px !important;
+      display:block;
+      margin: 0 auto;
+    }
+
+    /* CTA escondido até liberar */
+    .ctaWrap{
+      margin-top: 14px;
       display:none;
-      margin-top:18px;
     }
 
     .btn{
       width:100%;
-      padding:16px;
-      border:none;
-      border-radius:14px;
-      background:linear-gradient(135deg,#00ff8a,#00c853);
-      color:#ffffff;
-      font-size:15px;
-      font-weight:900;
-      letter-spacing:1px;
-      text-transform:uppercase;
-      position:relative;
-      overflow:hidden;
-      cursor:pointer;
+      border:0;
+      border-radius: 16px;
+      padding: 16px 16px;
+      font-weight: 1000;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: #ffffff; /* branco */
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--g1), var(--g2));
+      box-shadow: 0 18px 35px rgba(0,200,83,.28), 0 8px 18px rgba(0,0,0,.12);
+      transform: translateZ(0);
+      transition: transform .18s ease;
     }
+    .btn:active{ transform: scale(.985); }
 
-    .btn::after{
+    /* brilho “transpassado” só no botão */
+    .btn::before{
       content:"";
       position:absolute;
       top:-40%;
       left:-60%;
-      width:50%;
-      height:200%;
-      background:linear-gradient(
-        90deg,
+      width:60%;
+      height:180%;
+      transform: rotate(18deg);
+      background: linear-gradient(90deg,
         rgba(255,255,255,0) 0%,
-        rgba(255,255,255,.45) 50%,
+        rgba(255,255,255,.45) 45%,
         rgba(255,255,255,0) 100%
       );
-      transform:rotate(20deg);
-      animation:shine 2.5s infinite;
+      animation: shine 2.4s ease-in-out infinite;
+      pointer-events:none;
+      mix-blend-mode: overlay;
     }
-
     @keyframes shine{
-      0%{left:-70%}
-      100%{left:130%}
+      0%   { left:-70%; opacity:0; }
+      30%  { opacity:.65; }
+      100% { left:140%; opacity:0; }
     }
 
     .testimonials{
       display:none;
-      margin-top:26px;
+      margin-top: 18px;
+    }
+    .sectionTitle{
+      margin: 16px 0 10px;
+      font-size: 14px;
+      font-weight: 950;
+      letter-spacing: .4px;
+      color:#0b0f0c;
+    }
+    .tCard{
+      display:flex;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid var(--stroke);
+      box-shadow: 0 8px 18px rgba(0,0,0,.06);
+      margin-bottom: 10px;
+    }
+    .avatar{
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      flex: 0 0 38px;
+      display:grid;
+      place-items:center;
+      font-weight: 1000;
+      color: rgba(255,255,255,.92);
+      background: radial-gradient(circle at 30% 30%, rgba(0,255,138,.95), rgba(0,200,83,.88));
+      box-shadow: 0 10px 20px rgba(0,200,83,.18);
+      letter-spacing:.4px;
+      font-size: 12px;
+    }
+    .tBody{ flex:1; }
+    .tName{
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      margin: 1px 0 6px;
+      font-size: 13.5px;
+      font-weight: 900;
+      color:#0b0f0c;
+    }
+    .tMeta{
+      font-size: 12px;
+      color: #5a6660;
+      font-weight: 700;
+    }
+    .tText{
+      margin: 0;
+      color:#1c2621;
+      font-size: 13.5px;
+      line-height: 1.35;
+      font-weight: 650;
     }
 
-    .testimonial{
-      background:#f6f6f6;
-      border-radius:12px;
-      padding:12px;
-      margin-bottom:10px;
-      font-size:13px;
+    .disclaimer{
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 14px;
+      background: #fbfcfb;
+      border: 1px solid var(--stroke);
+      color: #4e5a54;
+      font-size: 11.5px;
+      line-height: 1.35;
+      font-weight: 650;
     }
 
     footer{
       text-align:center;
-      font-size:11px;
-      color:#666;
-      margin-top:30px;
+      margin-top: 14px;
+      padding: 10px 0 2px;
+      color:#66726b;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+
+    @media (min-width: 520px){
+      h1{ font-size: 24px; }
+      .sub,.hint{ font-size: 14.5px; }
     }
   </style>
+
+  <!-- Preloads do vídeo (mantém rápido) -->
+  <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+  <link rel="preload" href="https://scripts.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/players/698f02bb92e29505e05c2a20/v4/player.js" as="script">
+  <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+  <link rel="preload" href="https://cdn.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/698efa2aaa67549cb8e34085/main.m3u8" as="fetch" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.converteai.net">
+  <link rel="dns-prefetch" href="https://scripts.converteai.net">
+  <link rel="dns-prefetch" href="https://images.converteai.net">
+  <link rel="dns-prefetch" href="https://api.vturb.com.br">
 </head>
 
 <body>
-  <div class="container">
-    <div class="brand"><span>SISTEMA VIRAL</span> ANTICRISE</div>
+  <!-- Tarja vermelha topo -->
+  <div class="topbar-live" aria-label="Pessoas assistindo">
+    <div class="inner">
+      <div class="live-left">
+        <!-- Ícone olho (SVG) -->
+        <svg class="eye" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="white" stroke-width="2" />
+          <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" fill="white" opacity="0.9"/>
+        </svg>
+        ASSISTINDO AGORA
+      </div>
 
-    <h1>
-      Como pessoas comuns estão construindo uma renda mensal de
-      <span class="highlight">370 a 1000 reais por semana!</span><br>
-      Com vídeos anônimos, um sistema automático que vende e um passo a passo simples pelo celular.
-    </h1>
-
-    <div class="sub">
-      Sem investimento em anúncios, sem aparecer, sem se expor, trabalhando de casa e seguindo um plano diário de até 60 minutos.
+      <div class="live-right">
+        <div class="live-count"><span id="liveCount">—</span> pessoas</div>
+        <div class="live-note">estimativa</div>
+      </div>
     </div>
+  </div>
 
-    <div class="video-box">
-      <vturb-smartplayer id="vid-698f02bb92e29505e05c2a20"></vturb-smartplayer>
-    </div>
+  <div class="wrap">
+    <main class="container">
+      <h1>
+        Como pessoas comuns estão construindo uma renda mensal de
+        <span class="hl-strong money">370 a 1000 reais por semana!</span>
+        Com vídeos anônimos, um sistema automático que vende e um passo a passo simples pelo celular.
+      </h1>
 
-    <div class="cta" id="cta">
-      <button class="btn" id="ctaBtn">GARANTIR MINHA VAGA AGORA</button>
-    </div>
+      <p class="sub">
+        Sem investimento em anúncios, sem aparecer, sem se expor, trabalhando de casa e seguindo um plano diário de até 60 minutos.
+      </p>
 
-    <div class="testimonials" id="testimonials">
-      <div class="testimonial">“Eu não apareço e comecei a faturar toda semana.”</div>
-      <div class="testimonial">“Finalmente um sistema simples que dá pra executar.”</div>
-      <div class="testimonial">“Em poucos dias já vi resultado.”</div>
-    </div>
+      <p class="hint">
+        Clique no vídeo e clique no botão abaixo para assistir o vídeo em destaque.
+      </p>
 
-    <footer>
-      Sistema Viral Anticrise © 2026 — Todos os direitos reservados.<br>
-      Não somos afiliados ao Facebook ou Meta.
-    </footer>
+      <section class="videoCard" aria-label="Vídeo">
+        <vturb-smartplayer id="vid-698f02bb92e29505e05c2a20" style="display:block;margin:0 auto;width:100%;max-width:400px;"></vturb-smartplayer>
+        <script type="text/javascript">
+          var s=document.createElement("script");
+          s.src="https://scripts.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/players/698f02bb92e29505e05c2a20/v4/player.js";
+          s.async=!0;document.head.appendChild(s);
+        </script>
+      </section>
+
+      <!-- CTA escondido até liberar -->
+      <section class="ctaWrap" id="ctaWrap" aria-label="Chamada para ação">
+        <button id="ctaBtn" class="btn" type="button">
+          GARANTIR MINHA VAGA AGORA
+        </button>
+      </section>
+
+      <!-- Depoimentos escondidos até liberar -->
+      <section class="testimonials" id="testimonials" aria-label="Depoimentos">
+        <div class="sectionTitle">DEPOIMENTOS (COMENTÁRIOS)</div>
+
+        <div class="tCard">
+          <div class="avatar">LM</div>
+          <div class="tBody">
+            <div class="tName">Larissa Moura <span class="tMeta">• comentário</span></div>
+            <p class="tText">Eu tava travada porque não queria aparecer. Segui o plano e em poucos dias comecei a bater rotina semanal. O ponto virou quando eu parei de “inventar” e só executei.</p>
+          </div>
+        </div>
+
+        <div class="tCard">
+          <div class="avatar">JS</div>
+          <div class="tBody">
+            <div class="tName">Juliana Souza <span class="tMeta">• comentário</span></div>
+            <p class="tText">O que destravou foi vídeo + WhatsApp. Ajustei o fluxo e as conversas começaram a chegar com intenção real. Ficou simples de manter constância.</p>
+          </div>
+        </div>
+
+        <div class="tCard">
+          <div class="avatar">VN</div>
+          <div class="tBody">
+            <div class="tName">Victor Nascimento <span class="tMeta">• comentário</span></div>
+            <p class="tText">Eu achava que precisava de anúncio. Não precisei. O sistema me deu direção e o resto foi execução diária. Hoje roda bem mais previsível.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="disclaimer">
+        <b>Disclaimer:</b> Este site não possui nenhuma associação com a Meta, Facebook, Instagram ou qualquer um de seus ativos.
+        As marcas citadas pertencem aos seus respectivos proprietários e não se responsabilizam por este conteúdo, produtos ou resultados.
+      </div>
+
+      <footer>
+        Sistema Viral Anticrise — 2026 — Todos os direitos reservados.
+      </footer>
+    </main>
   </div>
 
   <script>
-    let started = false;
+    // ======= CONFIG =======
+    const CTA_URL = "https://lastlink.com/p/C0C922361/checkout-payment";
+    const DELAY_MS = 26 * 60 * 1000 + 37 * 1000; // 26:37
 
-    document.addEventListener("click", function(e){
-      if(started) return;
-      if(e.target.closest("vturb-smartplayer")){
-        started = true;
+    // Event ID por sessão para deduplicação
+    const EVENT_ID = "sv-" + Math.random().toString(36).slice(2);
 
-        setTimeout(() => {
-          document.getElementById("cta").style.display = "block";
-          document.getElementById("testimonials").style.display = "block";
-        }, 1597000); // 26 minutos e 37 segundos
+    // ======= Tarja: contador "estimado" com variação natural =======
+    (function(){
+      const el = document.getElementById('liveCount');
+
+      // Começa em uma faixa plausível
+      let n = randInt(696, 820);
+
+      // após um tempo, estabiliza próximo de 903/904 (como você pediu)
+      const stabilizeAfterMs = 3 * 60 * 1000; // 3 minutos
+      const t0 = Date.now();
+
+      function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+      function tick(){
+        const elapsed = Date.now() - t0;
+
+        if(elapsed >= stabilizeAfterMs){
+          // estabiliza 903-904
+          n = (Math.random() < 0.5) ? 903 : 904;
+        } else {
+          // varia (nunca passa de 940)
+          // sobe um pouco, cai um pouco, com tendência de alta leve
+          const step = randInt(-18, 28);
+          n = Math.max(696, Math.min(940, n + step));
+        }
+
+        el.textContent = n.toString();
       }
-    });
 
-    document.getElementById("ctaBtn").addEventListener("click", function(){
-      fbq('track','InitiateCheckout');
-      fetch('/api/capi',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({event_name:'InitiateCheckout'})
-      });
-      window.location.href="https://lastlink.com/p/C0C922361/checkout-payment";
+      // inicial
+      tick();
+      setInterval(tick, 10000); // a cada 10s
+    })();
+
+    // ======= Delay começa quando o lead interage com o vídeo =======
+    let started = false;
+    let timerId = null;
+
+    function startDelay(){
+      if(started) return;
+      started = true;
+
+      timerId = setTimeout(() => {
+        document.getElementById('ctaWrap').style.display = 'block';
+        document.getElementById('testimonials').style.display = 'block';
+
+        // opcional: evento quando libera (não mostra nada na tela)
+        try { fbq('track', 'ViewContent', { content_name: 'CTA Liberado' }, { eventID: EVENT_ID }); } catch(e){}
+      }, DELAY_MS);
+    }
+
+    // Captura a primeira interação com o player (clique/touch no componente)
+    document.addEventListener('pointerdown', function(e){
+      if(e.target.closest('vturb-smartplayer')) startDelay();
+    }, { passive: true });
+
+    // ======= Clique no CTA =======
+    document.getElementById('ctaBtn').addEventListener('click', function(){
+      // Pixel (browser) com eventID
+      try { fbq('track', 'InitiateCheckout', {}, { eventID: EVENT_ID }); } catch(e){}
+
+      // CAPI (servidor) com mesmo event_id
+      try{
+        fetch('/api/capi', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({
+            event_name: 'InitiateCheckout',
+            event_id: EVENT_ID,
+            event_source_url: window.location.href
+          })
+        });
+      } catch(e){}
+
+      window.location.href = CTA_URL;
     });
   </script>
-
-  <script src="https://scripts.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/players/698f02bb92e29505e05c2a20/v4/player.js" async></script>
 </body>
 </html>
