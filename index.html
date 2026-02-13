@@ -34,7 +34,6 @@
     :root{
       --max:420px;
       --stroke:#e7ece9;
-      --g1:#00ff8a;
       --g2:#00c853;
       --g3:#00ffa3;
     }
@@ -48,7 +47,7 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* TARJA */
+    /* TARJA (sem quebrar linha) */
     .topbar{
       position: sticky;
       top: 0;
@@ -62,53 +61,66 @@
     .topbar .inner{
       width:100%;
       max-width: var(--max);
-      font-weight: 950;
-      font-size: 12.8px;
-      letter-spacing: .2px;
       display:flex;
       align-items:center;
       gap:10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .eye{ width:18px; height:18px; flex:0 0 18px; display:inline-block; }
+    .eye{
+      width:18px;
+      height:18px;
+      flex:0 0 18px;
+      display:inline-block;
+    }
+    #liveText{
+      display:block;
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing: .15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
 
     .wrap{ display:flex; justify-content:center; }
-    .container{ width:100%; max-width: var(--max); padding: 18px 16px 36px; }
+    .container{
+      width:100%;
+      max-width: var(--max);
+      padding: 12px 16px 30px;
+    }
 
+    /* ✅ HEADLINE CONTROLADA POR LINHAS */
     h1{
-      margin: 10px 0 10px;
-      font-size: 21px;
-      line-height: 1.18;
+      margin: 8px 0 8px;
+      font-size: 18px;      /* leve redução p/ ficar mais “encaixado” */
+      line-height: 1.14;
       font-weight: 950;
-      letter-spacing: -0.4px;
+      letter-spacing: -0.35px;
     }
-    .hl-strong{
-      display:inline-block;
-      padding: 2px 6px;
-      border-radius: 10px;
-      background: linear-gradient(90deg, rgba(0,255,138,.14), rgba(0,200,83,.10));
-      border: 1px solid rgba(0,200,83,.20);
-    }
+    .hline{ display:block; }
+    .hline.tight{ margin-top: 2px; }
     .money{
+      display:block;         /* garante que o valor fica sozinho */
+      font-size: 22px;       /* maior que o restante */
+      line-height: 1.05;
+      font-weight: 1000;
+      white-space: nowrap;   /* 1 linha */
       background: linear-gradient(90deg, var(--g2), var(--g3));
       -webkit-background-clip:text;
       background-clip:text;
       color: transparent;
-      font-weight: 1000;
-      white-space: nowrap;
+      margin: 2px 0 2px;     /* espaçamento bem curto (sem “buracos”) */
     }
+
     .sub{
       margin: 0 0 10px;
-      color: #3f4b45;
-      font-size: 14px;
-      line-height: 1.35;
-      font-weight: 650;
-    }
-    .hint{
-      margin: 0 0 14px;
-      font-size: 14px;
-      line-height: 1.35;
+      color: #2f3a35;
+      font-size: 13.5px;
+      line-height: 1.25;
       font-weight: 800;
-      color: #0a8f4a;
     }
 
     .videoCard{
@@ -116,16 +128,13 @@
       border: 1px solid var(--stroke);
       border-radius: 18px;
       box-shadow: 0 10px 25px rgba(0,0,0,.10);
-      padding: 12px;
+      padding: 10px;
     }
-
-    /* wrapper relativo pra capturador invisível */
     .videoWrap{
       position: relative;
       border-radius: 14px;
       overflow: hidden;
     }
-
     vturb-smartplayer{
       width:100% !important;
       max-width: 400px !important;
@@ -133,7 +142,6 @@
       margin: 0 auto;
     }
 
-    /* Capturador INVISÍVEL: não mostra nada */
     .tapCatcher{
       position:absolute;
       inset:0;
@@ -142,7 +150,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    .ctaWrap{ margin-top: 14px; display:none; }
+    .ctaWrap{ margin-top: 12px; display:none; }
     .btn{
       width:100%;
       border:0;
@@ -183,9 +191,8 @@
       100% { left:140%; opacity:0; }
     }
 
-    .testimonials{ display:none; margin-top: 18px; }
     .disclaimer{
-      margin-top: 18px;
+      margin-top: 14px;
       padding: 12px;
       border-radius: 14px;
       background: #fbfcfb;
@@ -197,8 +204,8 @@
     }
     footer{
       text-align:center;
-      margin-top: 14px;
-      padding: 10px 0 2px;
+      margin-top: 10px;
+      padding: 8px 0 0;
       color:#66726b;
       font-size: 11.5px;
       font-weight: 700;
@@ -219,25 +226,19 @@
 
   <div class="wrap">
     <main class="container">
+
       <h1>
-        Como pessoas comuns estão construindo uma renda mensal de
-        <span class="hl-strong money">370 a 1000 reais por semana!</span>
-        Com vídeos anônimos, um sistema automático que vende e um passo a passo simples pelo celular.
+        <span class="hline">3 segredos de como pessoas comuns</span>
+        <span class="hline tight">estão construindo renda de</span>
+        <span class="money">370 a 1000 reais por semana!</span>
+        <span class="hline tight">Com vídeos anônimos, um sistema automático que vende e um passo a passo simples pelo celular.</span>
       </h1>
 
-      <p class="sub">
-        Sem investimento em anúncios, sem aparecer, sem se expor, trabalhando de casa e seguindo um plano diário de até 60 minutos.
-      </p>
-
-      <p class="hint">
-        Clique no vídeo e clique no botão abaixo para assistir o vídeo em destaque.
-      </p>
+      <p class="sub">Sem gastar com anúncios. Clique no vídeo abaixo!</p>
 
       <section class="videoCard" aria-label="Vídeo">
-        <div class="videoWrap" id="videoWrap">
-          <!-- Capturador invisível: inicia timer e repassa o clique pro player -->
+        <div class="videoWrap">
           <div class="tapCatcher" id="tapCatcher" aria-hidden="true"></div>
-
           <vturb-smartplayer id="vid-698f02bb92e29505e05c2a20" style="display:block;margin:0 auto;width:100%;max-width:400px;"></vturb-smartplayer>
         </div>
 
@@ -249,22 +250,7 @@
       </section>
 
       <section class="ctaWrap" id="ctaWrap" aria-label="Chamada para ação">
-        <button id="ctaBtn" class="btn" type="button">
-          GARANTIR MINHA VAGA AGORA
-        </button>
-      </section>
-
-      <section class="testimonials" id="testimonials" aria-label="Depoimentos">
-        <div style="margin:16px 0 10px;font-weight:950;">DEPOIMENTOS (COMENTÁRIOS)</div>
-        <div style="background:#fff;border:1px solid #e7ece9;border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 8px 18px rgba(0,0,0,.06);">
-          “Eu não apareço e comecei a ter resultado na rotina semanal.”
-        </div>
-        <div style="background:#fff;border:1px solid #e7ece9;border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 8px 18px rgba(0,0,0,.06);">
-          “O que destravou foi vídeo + WhatsApp. As conversas começaram a chegar com intenção.”
-        </div>
-        <div style="background:#fff;border:1px solid #e7ece9;border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 8px 18px rgba(0,0,0,.06);">
-          “Agora eu tenho direção e um plano simples de executar.”
-        </div>
+        <button id="ctaBtn" class="btn" type="button">GARANTIR MINHA VAGA AGORA</button>
       </section>
 
       <div class="disclaimer">
@@ -272,21 +258,23 @@
         As marcas citadas pertencem aos seus respectivos proprietários e não se responsabilizam por este conteúdo, produtos ou resultados.
       </div>
 
-      <footer>
-        Sistema Viral Anticrise — 2026 — Todos os direitos reservados.
-      </footer>
+      <footer>Sistema Viral Anticrise — 2026 — Todos os direitos reservados.</footer>
+
     </main>
   </div>
 
   <script>
     const CTA_URL = "https://lastlink.com/p/C0C922361/checkout-payment";
 
-    // ✅ DELAY DE TESTE: 10s (depois você troca pro 26:37)
+    // ✅ TESTE: 10s
     const DELAY_MS = 10 * 1000;
+
+    const STORAGE_STARTED_AT = "sv_started_at";
+    const STORAGE_SHOWN = "sv_cta_shown";
 
     const EVENT_ID = "sv-" + Math.random().toString(36).slice(2);
 
-    // Tarja (mantendo seu comportamento)
+    // Tarja: variação de "ao vivo"
     (function(){
       const el = document.getElementById('liveText');
       function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
@@ -309,32 +297,45 @@
       setInterval(tick, 10000);
     })();
 
-    // ===== DELAY: inicia no 1º toque no vídeo (robusto) =====
-    let started = false;
-
-    function showCTA(){
+    function revealCTAOnce(){
+      localStorage.setItem(STORAGE_SHOWN, "1");
       document.getElementById('ctaWrap').style.display = 'block';
-      document.getElementById('testimonials').style.display = 'block';
       try { fbq('track', 'ViewContent', { content_name: 'CTA Liberado' }, { eventID: EVENT_ID }); } catch(e){}
     }
 
-    function startDelay(){
-      if(started) return;
-      started = true;
+    function ensureTimerRunning(){
+      if(localStorage.getItem(STORAGE_SHOWN) === "1"){
+        revealCTAOnce();
+        return;
+      }
 
-      // inicia o timer
-      setTimeout(showCTA, DELAY_MS);
+      const startedAt = parseInt(localStorage.getItem(STORAGE_STARTED_AT) || "0", 10);
+      if(!startedAt) return;
+
+      const elapsed = Date.now() - startedAt;
+      if(elapsed >= DELAY_MS){
+        revealCTAOnce();
+        return;
+      }
+
+      const remaining = Math.max(0, DELAY_MS - elapsed);
+      clearTimeout(window.__svTimer);
+      window.__svTimer = setTimeout(revealCTAOnce, remaining);
     }
 
-    // Captura invisível e repassa clique pro player (pra não travar o play)
+    function startDelay(){
+      if(!localStorage.getItem(STORAGE_STARTED_AT)){
+        localStorage.setItem(STORAGE_STARTED_AT, String(Date.now()));
+      }
+      ensureTimerRunning();
+    }
+
     const catcher = document.getElementById('tapCatcher');
     const playerEl = document.querySelector('vturb-smartplayer');
 
     function passClickToPlayer(){
       if(!playerEl) return;
-      // remove o capturador e repassa o clique
       catcher.style.display = 'none';
-      // dispara clique no player logo em seguida
       setTimeout(() => {
         try {
           playerEl.dispatchEvent(new MouseEvent('click', { bubbles:true, cancelable:true, view:window }));
@@ -346,14 +347,15 @@
       catcher.addEventListener('click', () => { startDelay(); passClickToPlayer(); });
       catcher.addEventListener('pointerdown', () => { startDelay(); }, { passive:true });
     }
-
-    // Backup: se o clique “pegar” no componente, também inicia
     if(playerEl){
       playerEl.addEventListener('click', startDelay);
       playerEl.addEventListener('pointerdown', startDelay, { passive:true });
     }
 
-    // Clique no CTA
+    document.addEventListener('visibilitychange', ensureTimerRunning);
+    window.addEventListener('pageshow', ensureTimerRunning);
+    ensureTimerRunning();
+
     document.getElementById('ctaBtn').addEventListener('click', function(){
       try { fbq('track', 'InitiateCheckout', {}, { eventID: EVENT_ID }); } catch(e){}
 
