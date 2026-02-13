@@ -119,8 +119,12 @@
       padding: 12px;
     }
 
-    /* IMPORTANTE: wrapper relativo pra overlay funcionar */
-    .videoWrap{ position: relative; border-radius: 14px; overflow: hidden; }
+    /* wrapper relativo pra capturador invisível */
+    .videoWrap{
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+    }
 
     vturb-smartplayer{
       width:100% !important;
@@ -129,35 +133,13 @@
       margin: 0 auto;
     }
 
-    /* OVERLAY para capturar o 1º toque e iniciar o delay */
-    .playOverlay{
+    /* Capturador INVISÍVEL: não mostra nada */
+    .tapCatcher{
       position:absolute;
       inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      background: rgba(0,0,0,0); /* invisível */
       z-index: 10;
+      background: rgba(0,0,0,0);
       -webkit-tap-highlight-color: transparent;
-    }
-    .playOverlay .badge{
-      background: rgba(255,255,255,.92);
-      border: 1px solid rgba(0,0,0,.08);
-      padding: 10px 12px;
-      border-radius: 999px;
-      font-weight: 900;
-      font-size: 12.5px;
-      color:#0b0f0c;
-      box-shadow: 0 10px 22px rgba(0,0,0,.12);
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
-    .playDot{
-      width:10px;height:10px;border-radius:999px;
-      background: linear-gradient(135deg, var(--g1), var(--g2));
-      box-shadow: 0 10px 20px rgba(0,200,83,.25);
     }
 
     .ctaWrap{ margin-top: 14px; display:none; }
@@ -173,7 +155,7 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      background: linear-gradient(135deg, var(--g1), var(--g2));
+      background: linear-gradient(135deg, #00ff8a, #00c853);
       box-shadow: 0 18px 35px rgba(0,200,83,.28), 0 8px 18px rgba(0,0,0,.12);
       transition: transform .18s ease;
     }
@@ -248,18 +230,13 @@
       </p>
 
       <p class="hint">
-        Clique no vídeo
+        Clique no vídeo e clique no botão abaixo para assistir o vídeo em destaque.
       </p>
 
       <section class="videoCard" aria-label="Vídeo">
         <div class="videoWrap" id="videoWrap">
-          <!-- Overlay: CAPTURA o primeiro toque -->
-          <div class="playOverlay" id="playOverlay" role="button" aria-label="Iniciar vídeo">
-            <div class="badge">
-              <span class="playDot"></span>
-              Toque no vídeo para iniciar
-            </div>
-          </div>
+          <!-- Capturador invisível: inicia timer e repassa o clique pro player -->
+          <div class="tapCatcher" id="tapCatcher" aria-hidden="true"></div>
 
           <vturb-smartplayer id="vid-698f02bb92e29505e05c2a20" style="display:block;margin:0 auto;width:100%;max-width:400px;"></vturb-smartplayer>
         </div>
@@ -303,13 +280,13 @@
 
   <script>
     const CTA_URL = "https://lastlink.com/p/C0C922361/checkout-payment";
-    const DELAY_MS = const DELAY_MS = 10 * 1000;
-;
 
-    // event id p/ deduplicação browser + server
+    // ✅ DELAY DE TESTE: 10s (depois você troca pro 26:37)
+    const DELAY_MS = 10 * 1000;
+
     const EVENT_ID = "sv-" + Math.random().toString(36).slice(2);
 
-    // TARJA (seu padrão)
+    // Tarja (mantendo seu comportamento)
     (function(){
       const el = document.getElementById('liveText');
       function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
@@ -317,9 +294,7 @@
       const t0 = Date.now();
       const stabilizeAfterMs = 3 * 60 * 1000;
 
-      function updateText(){
-        el.textContent = `${n} pessoas estão assistindo esse vídeo agora`;
-      }
+      function updateText(){ el.textContent = `${n} pessoas estão assistindo esse vídeo agora`; }
       function tick(){
         const elapsed = Date.now() - t0;
         if(elapsed >= stabilizeAfterMs){
@@ -334,36 +309,48 @@
       setInterval(tick, 10000);
     })();
 
-    // ====== DELAY robusto: inicia no primeiro toque (overlay ou clique direto no player) ======
+    // ===== DELAY: inicia no 1º toque no vídeo (robusto) =====
     let started = false;
+
+    function showCTA(){
+      document.getElementById('ctaWrap').style.display = 'block';
+      document.getElementById('testimonials').style.display = 'block';
+      try { fbq('track', 'ViewContent', { content_name: 'CTA Liberado' }, { eventID: EVENT_ID }); } catch(e){}
+    }
 
     function startDelay(){
       if(started) return;
       started = true;
 
-      // Remove overlay quando iniciar
-      const overlay = document.getElementById('playOverlay');
-      if(overlay) overlay.style.display = 'none';
-
-      setTimeout(() => {
-        document.getElementById('ctaWrap').style.display = 'block';
-        document.getElementById('testimonials').style.display = 'block';
-        try { fbq('track', 'ViewContent', { content_name: 'CTA Liberado' }, { eventID: EVENT_ID }); } catch(e){}
-      }, DELAY_MS);
+      // inicia o timer
+      setTimeout(showCTA, DELAY_MS);
     }
 
-    // Overlay captura 1º toque SEM depender de iframe/shadow-dom
-    const overlay = document.getElementById('playOverlay');
-    if(overlay){
-      overlay.addEventListener('click', startDelay);
-      overlay.addEventListener('pointerdown', startDelay, {passive:true});
-    }
-
-    // Backup: clique direto no componente
+    // Captura invisível e repassa clique pro player (pra não travar o play)
+    const catcher = document.getElementById('tapCatcher');
     const playerEl = document.querySelector('vturb-smartplayer');
+
+    function passClickToPlayer(){
+      if(!playerEl) return;
+      // remove o capturador e repassa o clique
+      catcher.style.display = 'none';
+      // dispara clique no player logo em seguida
+      setTimeout(() => {
+        try {
+          playerEl.dispatchEvent(new MouseEvent('click', { bubbles:true, cancelable:true, view:window }));
+        } catch(e){}
+      }, 0);
+    }
+
+    if(catcher){
+      catcher.addEventListener('click', () => { startDelay(); passClickToPlayer(); });
+      catcher.addEventListener('pointerdown', () => { startDelay(); }, { passive:true });
+    }
+
+    // Backup: se o clique “pegar” no componente, também inicia
     if(playerEl){
       playerEl.addEventListener('click', startDelay);
-      playerEl.addEventListener('pointerdown', startDelay, {passive:true});
+      playerEl.addEventListener('pointerdown', startDelay, { passive:true });
     }
 
     // Clique no CTA
