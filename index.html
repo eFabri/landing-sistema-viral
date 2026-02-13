@@ -1,30 +1,11 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0f0c" />
   <title>Sistema Viral Anticrise</title>
-  <meta name="description" content="Pessoas comuns estão construindo renda semanal com vídeos anônimos e um passo a passo simples pelo celular." />
 
-
-  <!-- Performance hints -->
-  <link rel="preconnect" href="https://scripts.converteai.net" crossorigin>
-  <link rel="preconnect" href="https://cdn.converteai.net" crossorigin>
-  <link rel="dns-prefetch" href="https://cdn.converteai.net">
-  <link rel="dns-prefetch" href="https://scripts.converteai.net">
-  <link rel="dns-prefetch" href="https://images.converteai.net">
-  <link rel="dns-prefetch" href="https://api.vturb.com.br">
-
-
-  <!-- ConverteAI preload (do jeito que você enviou) -->
-  <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
-  <link rel="preload" href="https://scripts.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/players/698f02bb92e29505e05c2a20/v4/player.js" as="script">
-  <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
-  <link rel="preload" href="https://cdn.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/698efa2aaa67549cb8e34085/main.m3u8" as="fetch" crossorigin>
-
-
-  <!-- Meta Pixel (Browser) -->
+  <!-- Meta Pixel -->
   <script>
     !function(f,b,e,v,n,t,s){
       if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -37,552 +18,186 @@
     fbq('init', '700877391659913');
     fbq('track', 'PageView');
   </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=700877391659913&ev=PageView&noscript=1"/>
-  </noscript>
-
 
   <style>
-    :root{
-      --bg:#ffffff;
-      --text:#0b0f0c;
-      --muted:#55615a;
-      --card:#f6f8f7;
-      --stroke:#e7ece9;
-
-
-      /* Neon green (não claro demais) */
-      --g1:#12c16a;
-      --g2:#00a95c;
-      --g3:#0ae57a;
-
-
-      --shadow: 0 18px 45px rgba(0,0,0,.12);
-      --shadow2: 0 10px 25px rgba(0,0,0,.10);
-      --radius: 18px;
-      --max: 420px;
-    }
-
-
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: var(--bg);
-      color: var(--text);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+      background:#ffffff;
+      color:#111;
     }
-
-
-    .wrap{
-      min-height:100%;
-      display:flex;
-      justify-content:center;
-    }
-
 
     .container{
-      width:100%;
-      max-width: var(--max);
-      padding: 18px 16px 28px;
+      max-width:420px;
+      margin:0 auto;
+      padding:20px 16px 40px;
     }
 
-
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 6px 0 14px;
-    }
     .brand{
-      font-weight: 900;
-      letter-spacing: .5px;
-      font-size: 12px;
-      color: #0b0f0c;
-      opacity:.9;
+      text-align:center;
+      font-weight:800;
+      font-size:12px;
+      letter-spacing:1px;
+      margin-bottom:14px;
     }
     .brand span{
-      background: linear-gradient(90deg, var(--g1), var(--g2));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
+      color:#14d97b;
     }
-
 
     h1{
-      margin: 10px 0 10px;
-      font-size: 26px;
-      line-height: 1.12;
-      letter-spacing: -0.6px;
-      font-weight: 900;
+      font-size:22px;
+      line-height:1.2;
+      font-weight:800;
+      margin-bottom:10px;
     }
 
-
-    .hl-strong{
-      display:inline-block;
-      padding: 2px 6px;
-      border-radius: 10px;
-      background: linear-gradient(90deg, rgba(18,193,106,.15), rgba(0,169,92,.12));
-      border: 1px solid rgba(0,169,92,.18);
-    }
-
-
-    .money{
-      background: linear-gradient(90deg, var(--g2), var(--g3));
+    .highlight{
+      background: linear-gradient(90deg,#00d26a,#00ffa3);
       -webkit-background-clip:text;
       background-clip:text;
-      color: transparent;
-      font-weight: 1000;
-      white-space: nowrap;
+      color:transparent;
+      font-weight:900;
     }
-
 
     .sub{
-      margin: 0 0 16px;
-      color: var(--muted);
-      font-size: 14.5px;
-      line-height: 1.35;
-      font-weight: 600;
+      font-size:14px;
+      color:#444;
+      line-height:1.35;
+      margin-bottom:16px;
     }
 
-
-    .videoCard{
-      background: linear-gradient(180deg, #ffffff, #fbfcfb);
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow2);
-      padding: 12px;
+    .video-box{
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,.15);
+      margin-bottom:18px;
     }
 
-
-    vturb-smartplayer{
-      width:100% !important;
-      max-width: 400px !important;
+    .cta{
+      display:none;
+      margin-top:18px;
     }
-
-
-    .ctaWrap{
-      margin-top: 14px;
-    }
-
-
-    .timerRow{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-      margin: 8px 0 10px;
-      padding: 10px 12px;
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: 14px;
-      font-size: 12.5px;
-      color: #2d3a33;
-    }
-    .pill{
-      font-variant-numeric: tabular-nums;
-      font-weight: 900;
-      letter-spacing:.6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(0,169,92,.10);
-      border: 1px solid rgba(0,169,92,.22);
-      color: #0b3a22;
-    }
-
 
     .btn{
       width:100%;
-      border:0;
-      border-radius: 16px;
-      padding: 16px 16px;
-      font-weight: 1000;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      color: #07130d;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, var(--g1), var(--g2));
-      box-shadow: 0 18px 35px rgba(0,169,92,.25), 0 8px 18px rgba(0,0,0,.10);
-      transform: translateZ(0);
-      transition: transform .18s ease, filter .18s ease, opacity .2s ease;
+      padding:16px;
+      border:none;
+      border-radius:14px;
+      background:linear-gradient(135deg,#00ff8a,#00c853);
+      color:#ffffff;
+      font-size:15px;
+      font-weight:900;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      position:relative;
+      overflow:hidden;
+      cursor:pointer;
     }
 
-
-    .btn:active{ transform: scale(.985); }
-    .btn[disabled]{
-      opacity:.45;
-      cursor:not-allowed;
-      filter: grayscale(.1);
-      box-shadow: none;
-    }
-
-
-    /* brilho “transpassado” por cima do botão */
-    .btn::before{
+    .btn::after{
       content:"";
       position:absolute;
       top:-40%;
       left:-60%;
-      width:60%;
-      height:180%;
-      transform: rotate(18deg);
-      background: linear-gradient(90deg,
+      width:50%;
+      height:200%;
+      background:linear-gradient(
+        90deg,
         rgba(255,255,255,0) 0%,
-        rgba(255,255,255,.35) 45%,
+        rgba(255,255,255,.45) 50%,
         rgba(255,255,255,0) 100%
       );
-      animation: shine 2.4s ease-in-out infinite;
-      pointer-events:none;
-      mix-blend-mode: overlay;
+      transform:rotate(20deg);
+      animation:shine 2.5s infinite;
     }
+
     @keyframes shine{
-      0%   { left:-70%; opacity:.0; }
-      30%  { opacity:.55; }
-      55%  { opacity:.35; }
-      100% { left:140%; opacity:0; }
+      0%{left:-70%}
+      100%{left:130%}
     }
-
-
-    .btnGlow{
-      position:absolute;
-      inset:-2px;
-      border-radius: 18px;
-      filter: blur(14px);
-      opacity:.35;
-      background: radial-gradient(circle at 30% 30%, rgba(10,229,122,.55), transparent 55%),
-                  radial-gradient(circle at 70% 60%, rgba(0,169,92,.55), transparent 60%);
-      z-index:-1;
-    }
-
 
     .testimonials{
-      margin-top: 16px;
-      display:none; /* só aparece quando o botão libera */
+      display:none;
+      margin-top:26px;
     }
 
-
-    .sectionTitle{
-      margin: 16px 0 10px;
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: .4px;
-      color:#0b0f0c;
+    .testimonial{
+      background:#f6f6f6;
+      border-radius:12px;
+      padding:12px;
+      margin-bottom:10px;
+      font-size:13px;
     }
-    .sectionTitle span{
-      color: var(--g2);
-    }
-
-
-    .tCard{
-      display:flex;
-      gap: 10px;
-      padding: 12px;
-      border-radius: 16px;
-      background: #ffffff;
-      border: 1px solid var(--stroke);
-      box-shadow: 0 8px 18px rgba(0,0,0,.06);
-      margin-bottom: 10px;
-    }
-    .avatar{
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      flex: 0 0 38px;
-      display:grid;
-      place-items:center;
-      font-weight: 1000;
-      color: rgba(255,255,255,.92);
-      background: radial-gradient(circle at 30% 30%, rgba(18,193,106,.95), rgba(0,169,92,.85));
-      box-shadow: 0 10px 20px rgba(0,169,92,.18);
-      letter-spacing:.4px;
-      font-size: 12px;
-    }
-    .tBody{ flex:1; }
-    .tName{
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      margin: 1px 0 6px;
-      font-size: 13.5px;
-      font-weight: 900;
-      color:#0b0f0c;
-    }
-    .tMeta{
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-    .tText{
-      margin: 0;
-      color:#1c2621;
-      font-size: 13.5px;
-      line-height: 1.35;
-      font-weight: 650;
-    }
-
-
-    .disclaimer{
-      margin-top: 18px;
-      padding: 12px;
-      border-radius: 14px;
-      background: #fbfcfb;
-      border: 1px solid var(--stroke);
-      color: #4e5a54;
-      font-size: 11.5px;
-      line-height: 1.35;
-      font-weight: 650;
-    }
-
 
     footer{
       text-align:center;
-      margin-top: 14px;
-      padding: 10px 0 2px;
-      color:#66726b;
-      font-size: 11.5px;
-      font-weight: 700;
-    }
-    footer b{
-      color:#0b0f0c;
-    }
-    footer .accent{
-      background: linear-gradient(90deg, var(--g2), var(--g3));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      font-weight: 1000;
-    }
-
-
-    @media (min-width: 520px){
-      .container{ padding: 26px 18px 34px; }
-      h1{ font-size: 30px; }
-      .sub{ font-size: 15.5px; }
+      font-size:11px;
+      color:#666;
+      margin-top:30px;
     }
   </style>
 </head>
 
-
 <body>
-  <div class="wrap">
-    <main class="container">
-      <div class="topbar">
-        <div class="brand"><span>SISTEMA VIRAL</span> ANTICRISE</div>
-      </div>
+  <div class="container">
+    <div class="brand"><span>SISTEMA VIRAL</span> ANTICRISE</div>
 
+    <h1>
+      Como pessoas comuns estão construindo uma renda mensal de
+      <span class="highlight">370 a 1000 reais por semana!</span><br>
+      Com vídeos anônimos, um sistema automático que vende e um passo a passo simples pelo celular.
+    </h1>
 
-      <h1>
-        Pessoas comuns estão construindo uma renda mensal de
-        <span class="hl-strong money">370 a mil reais por semana</span>,
-        com vídeos anônimos, atração inteligente e um passo a passo simples pelo celular.
-      </h1>
+    <div class="sub">
+      Sem investimento em anúncios, sem aparecer, sem se expor, trabalhando de casa e seguindo um plano diário de até 60 minutos.
+    </div>
 
+    <div class="video-box">
+      <vturb-smartplayer id="vid-698f02bb92e29505e05c2a20"></vturb-smartplayer>
+    </div>
 
-      <p class="sub">
-        Sem investimento em anúncios, sem aparecer, sem se expor, trabalhando de casa e seguindo um plano diário de até 60 minutos (ou até uma hora).
-      </p>
+    <div class="cta" id="cta">
+      <button class="btn" id="ctaBtn">GARANTIR MINHA VAGA AGORA</button>
+    </div>
 
+    <div class="testimonials" id="testimonials">
+      <div class="testimonial">“Eu não apareço e comecei a faturar toda semana.”</div>
+      <div class="testimonial">“Finalmente um sistema simples que dá pra executar.”</div>
+      <div class="testimonial">“Em poucos dias já vi resultado.”</div>
+    </div>
 
-      <section class="videoCard" aria-label="Vídeo">
-        <vturb-smartplayer id="vid-698f02bb92e29505e05c2a20" style="display:block;margin:0 auto;width:100%;max-width:400px;"></vturb-smartplayer>
-        <script type="text/javascript">
-          var s=document.createElement("script");
-          s.src="https://scripts.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/players/698f02bb92e29505e05c2a20/v4/player.js";
-          s.async=!0;document.head.appendChild(s);
-        </script>
-      </section>
-
-
-      <section class="ctaWrap" aria-label="Chamada para ação">
-        <div class="timerRow" id="timerRow">
-          <div><b>LIBERAÇÃO DO BOTÃO</b> (delay obrigatório)</div>
-          <div class="pill" id="countdown">26:37</div>
-        </div>
-
-
-        <div style="position:relative;">
-          <div class="btnGlow" aria-hidden="true"></div>
-          <button
-            id="ctaBtn"
-            class="btn"
-            type="button"
-            disabled
-            aria-disabled="true"
-          >
-            GARANTIR MINHA VAGA AGORA
-          </button>
-        </div>
-      </section>
-
-
-      <section class="testimonials" id="testimonials" aria-label="Depoimentos">
-        <div class="sectionTitle">DEPOIMENTOS <span>(COMENTÁRIOS)</span></div>
-
-
-        <div class="tCard">
-          <div class="avatar">LM</div>
-          <div class="tBody">
-            <div class="tName">Larissa Moura <span class="tMeta">• comentário</span></div>
-            <p class="tText">Eu tava travada porque não queria aparecer. Fiz as 5 aulas, segui o plano de 1h e em 9 dias comecei a bater rotina de R$ 410/semana. O ponto virou quando eu parei de “inventar” e só executei.</p>
-          </div>
-        </div>
-
-
-        <div class="tCard">
-          <div class="avatar">RC</div>
-          <div class="tBody">
-            <div class="tName">Rafael Cunha <span class="tMeta">• comentário</span></div>
-            <p class="tText">Eu vivia pulando de método em método. A Aula 1 me fez escolher um mercado que já compra. A partir daí ficou tudo mais simples. Hoje faço de casa e já bateu R$ 780 na última semana.</p>
-          </div>
-        </div>
-
-
-        <div class="tCard">
-          <div class="avatar">JS</div>
-          <div class="tBody">
-            <div class="tName">Juliana Souza <span class="tMeta">• comentário</span></div>
-            <p class="tText">O “pulo do gato” foi a Aula 4: do vídeo pro WhatsApp e link da bio. Eu tava recebendo views e nada de conversa. Ajustei o fluxo e começou a cair gente pedindo como funciona. Fechei 6 vendas em 12 dias.</p>
-          </div>
-        </div>
-
-
-        <div class="tCard">
-          <div class="avatar">DG</div>
-          <div class="tBody">
-            <div class="tName">Diego Gomes <span class="tMeta">• comentário</span></div>
-            <p class="tText">Eu achava que precisava de anúncio. Não precisei. Só aplicando os vídeos da Aula 3, meu alcance subiu e o WhatsApp virou o “funil”. Primeira semana completa: R$ 530.</p>
-          </div>
-        </div>
-
-
-        <div class="tCard">
-          <div class="avatar">MP</div>
-          <div class="tBody">
-            <div class="tName">Mariana Prado <span class="tMeta">• comentário</span></div>
-            <p class="tText">Eu não tinha tempo. A ideia do plano diário me salvou. Eu faço 40–60 min e pronto. A sensação é que agora eu tenho direção. Já bateu R$ 1.020/semana numa semana boa.</p>
-          </div>
-        </div>
-
-
-        <div class="tCard">
-          <div class="avatar">VN</div>
-          <div class="tBody">
-            <div class="tName">Victor Nascimento <span class="tMeta">• comentário</span></div>
-            <p class="tText">Aula 2 clareou minha cabeça: “modelar sem copiar”. Eu tava tentando ser criativo e só me perdia. Agora eu tenho um modelo, adapto e executo. Resultado: constância e vendas no automático começando a rodar.</p>
-          </div>
-        </div>
-
-
-        <div class="tCard">
-          <div class="avatar">CA</div>
-          <div class="tBody">
-            <div class="tName">Camila Azevedo <span class="tMeta">• comentário</span></div>
-            <p class="tText">Eu tinha vergonha e medo de julgamento. O jeito “anônimo” me deu paz. Hoje eu faço tudo sem me expor e finalmente entrei numa renda extra que faz diferença de verdade.</p>
-          </div>
-        </div>
-
-
-        <div class="tCard">
-          <div class="avatar">FB</div>
-          <div class="tBody">
-            <div class="tName">Felipe Barros <span class="tMeta">• comentário</span></div>
-            <p class="tText">O Rodrigo simplificou o caminho. Eu parei de procurar “hack” e comecei a seguir o processo. O resultado veio rápido porque é básico bem feito.</p>
-          </div>
-        </div>
-      </section>
-
-
-      <div class="disclaimer">
-        <b>Disclaimer:</b> Este site não possui nenhuma associação com a Meta, Facebook, Instagram ou qualquer um de seus ativos.
-        As marcas citadas pertencem aos seus respectivos proprietários e não se responsabilizam por este conteúdo, produtos ou resultados.
-      </div>
-
-
-      <footer>
-        <div><b><span class="accent">SISTEMA VIRAL ANTICRISE</span></b> — 2026 — Todos os direitos reservados.</div>
-      </footer>
-    </main>
+    <footer>
+      Sistema Viral Anticrise © 2026 — Todos os direitos reservados.<br>
+      Não somos afiliados ao Facebook ou Meta.
+    </footer>
   </div>
 
-
   <script>
-    // ======= CONFIG =======
-    const CTA_URL = "https://lastlink.com/p/C0C922361/checkout-payment";
+    let started = false;
 
+    document.addEventListener("click", function(e){
+      if(started) return;
+      if(e.target.closest("vturb-smartplayer")){
+        started = true;
 
-    // Event ID único por sessão (para deduplicar browser + servidor)
-    const EVENT_ID = "sv-" + Math.random().toString(36).slice(2);
-
-
-    // ======= Delay do botão: 26m37s (IMPRETERIVELMENTE) =======
-    (function(){
-      const DELAY_SECONDS = (26 * 60) + 37; // 1597
-      const countdownEl = document.getElementById('countdown');
-      const btn = document.getElementById('ctaBtn');
-      const testimonials = document.getElementById('testimonials');
-
-
-      function fmt(sec){
-        const m = Math.floor(sec / 60);
-        const s = sec % 60;
-        return String(m).padStart(2,'0') + ":" + String(s).padStart(2,'0');
+        setTimeout(() => {
+          document.getElementById("cta").style.display = "block";
+          document.getElementById("testimonials").style.display = "block";
+        }, 1597000); // 26 minutos e 37 segundos
       }
+    });
 
-
-      const start = Date.now();
-      const target = start + (DELAY_SECONDS * 1000);
-
-
-      function tick(){
-        const leftMs = target - Date.now();
-        const left = Math.max(0, Math.ceil(leftMs / 1000));
-        countdownEl.textContent = fmt(left);
-
-
-        if(left <= 0){
-          btn.disabled = false;
-          btn.setAttribute('aria-disabled', 'false');
-          testimonials.style.display = 'block';
-
-
-          // Evento opcional quando o botão LIBERA
-          try { fbq('track', 'ViewContent', { content_name: 'CTA Liberado' }, { eventID: EVENT_ID }); } catch(e){}
-          return;
-        }
-        setTimeout(tick, 250);
-      }
-      tick();
-
-
-      // Clique do botão -> Pixel + CAPI + Redirect
-      btn.addEventListener('click', function(){
-        // Pixel (browser)
-        try { fbq('track', 'InitiateCheckout', {}, { eventID: EVENT_ID }); } catch(e){}
-
-
-        // CAPI (servidor) - chama endpoint no Vercel
-        try{
-          fetch('/api/capi', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              event_name: 'InitiateCheckout',
-              event_id: EVENT_ID,
-              event_source_url: window.location.href
-            })
-          });
-        } catch(e){}
-
-
-        // Redirect para checkout
-        window.location.href = CTA_URL;
+    document.getElementById("ctaBtn").addEventListener("click", function(){
+      fbq('track','InitiateCheckout');
+      fetch('/api/capi',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({event_name:'InitiateCheckout'})
       });
-    })();
+      window.location.href="https://lastlink.com/p/C0C922361/checkout-payment";
+    });
   </script>
+
+  <script src="https://scripts.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/players/698f02bb92e29505e05c2a20/v4/player.js" async></script>
 </body>
 </html>
