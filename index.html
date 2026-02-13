@@ -92,35 +92,53 @@
       padding: 12px 16px 30px;
     }
 
+    /* ✅ bloco do texto mais "centralizado" e com mais respiro à esquerda */
+    .hero{
+      padding-left: 6px;   /* empurra um pouquinho para a direita */
+      padding-right: 4px;
+    }
+
     /* ✅ HEADLINE CONTROLADA POR LINHAS */
     h1{
-      margin: 8px 0 8px;
-      font-size: 18px;      /* leve redução p/ ficar mais “encaixado” */
+      margin: 8px 0 10px;
+      font-size: 18px;
       line-height: 1.14;
       font-weight: 950;
       letter-spacing: -0.35px;
     }
     .hline{ display:block; }
     .hline.tight{ margin-top: 2px; }
+
     .money{
-      display:block;         /* garante que o valor fica sozinho */
-      font-size: 22px;       /* maior que o restante */
+      display:block;
+      font-size: 22px;
       line-height: 1.05;
       font-weight: 1000;
-      white-space: nowrap;   /* 1 linha */
+      white-space: nowrap;
       background: linear-gradient(90deg, var(--g2), var(--g3));
       -webkit-background-clip:text;
       background-clip:text;
       color: transparent;
-      margin: 2px 0 2px;     /* espaçamento bem curto (sem “buracos”) */
+      margin: 2px 0 2px;
     }
 
+    /* ✅ SUBHEADLINE agora é a frase grande */
     .sub{
-      margin: 0 0 10px;
-      color: #2f3a35;
-      font-size: 13.5px;
-      line-height: 1.25;
-      font-weight: 800;
+      margin: 0 0 8px;
+      color: #1f2a25;
+      font-size: 13.8px;
+      line-height: 1.28;
+      font-weight: 850;
+    }
+
+    /* ✅ "clique no vídeo abaixo" menor, verde e centralizado */
+    .hint{
+      margin: 0 0 12px;
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 900;
+      letter-spacing: .2px;
+      color: #00c853;
     }
 
     .videoCard{
@@ -227,14 +245,19 @@
   <div class="wrap">
     <main class="container">
 
-      <h1>
-        <span class="hline">3 segredos de como pessoas comuns</span>
-        <span class="hline tight">estão construindo renda limpa de</span>
-        <span class="money">370 a 1000 reais por semana!</span>
-        <span class="hline tight">Com vídeos anônimos, um sistema automático que vende e um passo a passo simples pelo celular.</span>
-      </h1>
+      <div class="hero">
+        <h1>
+          <span class="hline">3 segredos de como pessoas comuns</span>
+          <span class="hline tight">estão construindo renda limpa de</span>
+          <span class="money">370 a 1000 reais por semana!</span>
+        </h1>
 
-      <p class="sub">Sem gastar com anúncios. Clique no vídeo abaixo!</p>
+        <p class="sub">
+          Com vídeos anônimos, um sistema automático que vende e um passo a passo simples pelo celular, sem gastar com anúncios.
+        </p>
+
+        <p class="hint">Clique no vídeo abaixo</p>
+      </div>
 
       <section class="videoCard" aria-label="Vídeo">
         <div class="videoWrap">
@@ -266,8 +289,8 @@
   <script>
     const CTA_URL = "https://lastlink.com/p/C0C922361/checkout-payment";
 
-    // ✅ TESTE: 10s
-    const DELAY_MS = (26 * 60 + 37) * 1000;
+    // ✅ DELAY REAL: 26m37s
+    const DELAY_MS = (26 * 60 + 37) * 1000; // 1597000
 
     const STORAGE_STARTED_AT = "sv_started_at";
     const STORAGE_SHOWN = "sv_cta_shown";
@@ -376,4 +399,3 @@
   </script>
 </body>
 </html>
-
