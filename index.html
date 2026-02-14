@@ -94,42 +94,26 @@
 
     /* ✅ bloco do texto mais "centralizado" e com mais respiro à esquerda */
     .hero{
-      padding-left: 6px;   /* empurra um pouquinho para a direita */
-      padding-right: 4px;
-    }
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center; /* ✅ centraliza tudo dentro */
+}
 
-    /* ✅ HEADLINE CONTROLADA POR LINHAS */
-    h1{
-      margin: 8px 0 10px;
-      font-size: 18px;
-      line-height: 1.14;
-      font-weight: 950;
-      letter-spacing: -0.35px;
-    }
-    .hline{ display:block; }
-    .hline.tight{ margin-top: 2px; }
+h1{
+  margin: 8px auto 10px;
+  font-size: 18px;
+  line-height: 1.14;
+  font-weight: 950;
+  text-align: center; /* ✅ headline centralizada */
+}
 
-    .money{
-      display:block;
-      font-size: 22px;
-      line-height: 1.05;
-      font-weight: 1000;
-      white-space: nowrap;
-      background: linear-gradient(90deg, var(--g2), var(--g3));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      margin: 2px 0 2px;
-    }
-
-    /* ✅ SUBHEADLINE agora é a frase grande */
-    .sub{
-      margin: 0 0 8px;
-      color: #1f2a25;
-      font-size: 13.8px;
-      line-height: 1.28;
-      font-weight: 850;
-    }
+.sub{
+  margin: 0 auto 8px;
+  font-size: 13.8px;
+  line-height: 1.28;
+  font-weight: 850;
+  text-align: center; /* ✅ sub-headline centralizada */
+}
 
     /* ✅ "clique no vídeo abaixo" menor, verde e centralizado */
     .hint{
@@ -399,4 +383,5 @@
   </script>
 </body>
 </html>
+
 
