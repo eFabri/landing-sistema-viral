@@ -92,7 +92,6 @@
       padding: 12px 16px 30px;
     }
 
-    /* ✅ bloco do texto mais "centralizado" e com mais respiro à esquerda */
     .hero{
       padding-left: 0;
       padding-right: 0;
@@ -107,13 +106,11 @@
       text-align: center;
     }
 
-    /* ✅ ADICIONADO: garante cada trecho em nova linha */
     .hline{
       display:block;
       text-align:center;
     }
 
-    /* ✅ ADICIONADO: degradê verde na parte "370 a 1000..." */
     .money{
       display:inline-block;
       font-weight: 1000;
@@ -125,13 +122,12 @@
     }
 
     .sub{
-      font-size: 11.6px; /* ↓ ~30% menor */
+      font-size: 11.6px;
       line-height: 1.3;
       font-weight: 750;
       text-align: center;
     }
 
-    /* ✅ "clique no vídeo abaixo" menor, verde e centralizado */
     .hint{
       font-size: 9.6px;
       font-weight: 800;
@@ -289,12 +285,10 @@
   <script>
     const CTA_URL = "https://lastlink.com/p/C0C922361/checkout-payment";
 
-    // ✅ DELAY REAL: 26m37s
-    const DELAY_MS = (26 * 60 + 37) * 1000; // 1597000
+    // ✅ libera o CTA quando o VÍDEO atingir 26:37 (tempo do player)
+    const REVEAL_AT_SECONDS = (26 * 60) + 37; // 1597
 
-    const STORAGE_STARTED_AT = "sv_started_at";
     const STORAGE_SHOWN = "sv_cta_shown";
-
     const EVENT_ID = "sv-" + Math.random().toString(36).slice(2);
 
     // Tarja: variação de "ao vivo"
@@ -321,38 +315,100 @@
     })();
 
     function revealCTAOnce(){
+      if(localStorage.getItem(STORAGE_SHOWN) === "1") {
+        document.getElementById('ctaWrap').style.display = 'block';
+        return;
+      }
       localStorage.setItem(STORAGE_SHOWN, "1");
       document.getElementById('ctaWrap').style.display = 'block';
       try { fbq('track', 'ViewContent', { content_name: 'CTA Liberado' }, { eventID: EVENT_ID }); } catch(e){}
     }
 
-    function ensureTimerRunning(){
+    // ✅ tenta pegar o <video> real que o player cria e libera baseado no currentTime
+    function findPlayableVideo(){
+      // pega o maior vídeo visível/candidato (o player às vezes cria vídeos auxiliares)
+      const vids = Array.from(document.querySelectorAll('video'));
+      if(!vids.length) return null;
+
+      // escolhe o que tem duração/metadata ou maior área (melhor heurística)
+      let best = null;
+      let bestScore = -1;
+
+      for(const v of vids){
+        const r = v.getBoundingClientRect ? v.getBoundingClientRect() : { width:0, height:0 };
+        const area = (r.width || 0) * (r.height || 0);
+        const hasMeta = (isFinite(v.duration) && v.duration > 0) ? 1 : 0;
+        const score = (hasMeta * 1000000) + area;
+
+        if(score > bestScore){
+          bestScore = score;
+          best = v;
+        }
+      }
+      return best;
+    }
+
+    function bindVideoTimeGate(){
+      // se já liberou antes, mostra e sai
       if(localStorage.getItem(STORAGE_SHOWN) === "1"){
-        revealCTAOnce();
+        document.getElementById('ctaWrap').style.display = 'block';
         return;
       }
 
-      const startedAt = parseInt(localStorage.getItem(STORAGE_STARTED_AT) || "0", 10);
-      if(!startedAt) return;
+      const video = findPlayableVideo();
+      if(!video) return false;
 
-      const elapsed = Date.now() - startedAt;
-      if(elapsed >= DELAY_MS){
-        revealCTAOnce();
-        return;
-      }
+      const check = () => {
+        if(localStorage.getItem(STORAGE_SHOWN) === "1") return;
+        const t = Number(video.currentTime || 0);
+        if(t >= REVEAL_AT_SECONDS) revealCTAOnce();
+      };
 
-      const remaining = Math.max(0, DELAY_MS - elapsed);
-      clearTimeout(window.__svTimer);
-      window.__svTimer = setTimeout(revealCTAOnce, remaining);
+      // eventos que capturam play, seek e progresso
+      video.addEventListener('timeupdate', check);
+      video.addEventListener('seeked', check);
+      video.addEventListener('loadedmetadata', check);
+      video.addEventListener('playing', check);
+
+      // fallback: enquanto estiver tocando, checa mais “firme”
+      let poll = null;
+      const startPoll = () => {
+        if(poll) return;
+        poll = setInterval(check, 500);
+      };
+      const stopPoll = () => {
+        if(!poll) return;
+        clearInterval(poll);
+        poll = null;
+      };
+
+      video.addEventListener('playing', startPoll);
+      video.addEventListener('pause', stopPoll);
+      video.addEventListener('ended', stopPoll);
+
+      // primeira checagem
+      check();
+
+      return true;
     }
 
-    function startDelay(){
-      if(!localStorage.getItem(STORAGE_STARTED_AT)){
-        localStorage.setItem(STORAGE_STARTED_AT, String(Date.now()));
-      }
-      ensureTimerRunning();
-    }
+    // espera o smartplayer montar o vídeo (MutationObserver + tentativas)
+    (function initGate(){
+      const tryBind = () => {
+        if(bindVideoTimeGate()){
+          observer && observer.disconnect();
+          clearInterval(intv);
+        }
+      };
 
+      const observer = new MutationObserver(() => tryBind());
+      observer.observe(document.documentElement, { childList:true, subtree:true });
+
+      const intv = setInterval(tryBind, 500);
+      setTimeout(tryBind, 50);
+    })();
+
+    // mantém seu "tapCatcher" só para garantir o 1º toque no mobile (sem botões no meio)
     const catcher = document.getElementById('tapCatcher');
     const playerEl = document.querySelector('vturb-smartplayer');
 
@@ -367,17 +423,8 @@
     }
 
     if(catcher){
-      catcher.addEventListener('click', () => { startDelay(); passClickToPlayer(); });
-      catcher.addEventListener('pointerdown', () => { startDelay(); }, { passive:true });
+      catcher.addEventListener('click', () => { passClickToPlayer(); });
     }
-    if(playerEl){
-      playerEl.addEventListener('click', startDelay);
-      playerEl.addEventListener('pointerdown', startDelay, { passive:true });
-    }
-
-    document.addEventListener('visibilitychange', ensureTimerRunning);
-    window.addEventListener('pageshow', ensureTimerRunning);
-    ensureTimerRunning();
 
     document.getElementById('ctaBtn').addEventListener('click', function(){
       try { fbq('track', 'InitiateCheckout', {}, { eventID: EVENT_ID }); } catch(e){}
@@ -399,8 +446,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
