@@ -6,6 +6,9 @@
   <meta name="theme-color" content="#ffffff" />
   <title>Sistema Viral Anticrise</title>
 
+  <!-- (Opcional) evita o 404 do favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>">
+
   <!-- Preloads do vídeo -->
   <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
   <link rel="preload" href="https://scripts.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/players/698f02bb92e29505e05c2a20/v4/player.js" as="script">
@@ -46,6 +49,9 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+
+    /* ✅ VTurb Delay: qualquer coisa com .esconder começa oculta */
+    .esconder{ display:none; }
 
     /* TARJA (sem quebrar linha) */
     .topbar{
@@ -106,10 +112,7 @@
       text-align: center;
     }
 
-    .hline{
-      display:block;
-      text-align:center;
-    }
+    .hline{ display:block; text-align:center; }
 
     .money{
       display:inline-block;
@@ -147,22 +150,16 @@
       border-radius: 14px;
       overflow: hidden;
     }
+
+    /* ✅ tamanho normal do player */
     vturb-smartplayer{
       width:100% !important;
-      max-width: 200px !important;
+      max-width: 400px !important;
       display:block;
       margin: 0 auto;
     }
 
-    .tapCatcher{
-      position:absolute;
-      inset:0;
-      z-index: 10;
-      background: rgba(0,0,0,0);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .ctaWrap{ margin-top: 12px; display:none; }
+    .ctaWrap{ margin-top: 12px; }
     .btn{
       width:100%;
       border:0;
@@ -257,7 +254,6 @@
 
       <section class="videoCard" aria-label="Vídeo">
         <div class="videoWrap">
-          <div class="tapCatcher" id="tapCatcher" aria-hidden="true"></div>
           <vturb-smartplayer id="vid-698f02bb92e29505e05c2a20" style="display:block;margin:0 auto;width:100%;max-width:400px;"></vturb-smartplayer>
         </div>
 
@@ -268,7 +264,8 @@
         </script>
       </section>
 
-      <section class="ctaWrap" id="ctaWrap" aria-label="Chamada para ação">
+      <!-- ✅ BOTÃO COMEÇA ESCONDIDO E A VTURB LIBERA NO TEMPO CERTO -->
+      <section class="ctaWrap esconder" id="ctaWrap" aria-label="Chamada para ação">
         <button id="ctaBtn" class="btn" type="button">GARANTIR MINHA VAGA AGORA</button>
       </section>
 
@@ -284,11 +281,6 @@
 
   <script>
     const CTA_URL = "https://lastlink.com/p/C0C922361/checkout-payment";
-
-    // ✅ libera o CTA quando o VÍDEO atingir 26:37 (tempo do player)
-    const REVEAL_AT_SECONDS = (26 * 60) + 37; // 1597
-
-    const STORAGE_SHOWN = "sv_cta_shown";
     const EVENT_ID = "sv-" + Math.random().toString(36).slice(2);
 
     // Tarja: variação de "ao vivo"
@@ -314,117 +306,27 @@
       setInterval(tick, 10000);
     })();
 
-    function revealCTAOnce(){
-      if(localStorage.getItem(STORAGE_SHOWN) === "1") {
-        document.getElementById('ctaWrap').style.display = 'block';
-        return;
-      }
-      localStorage.setItem(STORAGE_SHOWN, "1");
-      document.getElementById('ctaWrap').style.display = 'block';
-      try { fbq('track', 'ViewContent', { content_name: 'CTA Liberado' }, { eventID: EVENT_ID }); } catch(e){}
-    }
+    /* ✅ DELAY OFICIAL VTURB (Novo Player)
+       26m37s = 1597 segundos
+       persist:true = mantém liberado depois, mesmo se recarregar a página
+    */
+    (function(){
+      var alreadyInitialized = false;
 
-    // ✅ tenta pegar o <video> real que o player cria e libera baseado no currentTime
-    function findPlayableVideo(){
-      // pega o maior vídeo visível/candidato (o player às vezes cria vídeos auxiliares)
-      const vids = Array.from(document.querySelectorAll('video'));
-      if(!vids.length) return null;
+      document.addEventListener('player:ready', function(event) {
+        if (alreadyInitialized) return;
 
-      // escolhe o que tem duração/metadata ou maior área (melhor heurística)
-      let best = null;
-      let bestScore = -1;
+        var detail = event.detail || {};
+        var player = detail.player || document.querySelector('vturb-smartplayer');
 
-      for(const v of vids){
-        const r = v.getBoundingClientRect ? v.getBoundingClientRect() : { width:0, height:0 };
-        const area = (r.width || 0) * (r.height || 0);
-        const hasMeta = (isFinite(v.duration) && v.duration > 0) ? 1 : 0;
-        const score = (hasMeta * 1000000) + area;
+        if (!player || typeof player.displayHiddenElements !== 'function') return;
 
-        if(score > bestScore){
-          bestScore = score;
-          best = v;
-        }
-      }
-      return best;
-    }
+        alreadyInitialized = true;
 
-    function bindVideoTimeGate(){
-      // se já liberou antes, mostra e sai
-      if(localStorage.getItem(STORAGE_SHOWN) === "1"){
-        document.getElementById('ctaWrap').style.display = 'block';
-        return;
-      }
-
-      const video = findPlayableVideo();
-      if(!video) return false;
-
-      const check = () => {
-        if(localStorage.getItem(STORAGE_SHOWN) === "1") return;
-        const t = Number(video.currentTime || 0);
-        if(t >= REVEAL_AT_SECONDS) revealCTAOnce();
-      };
-
-      // eventos que capturam play, seek e progresso
-      video.addEventListener('timeupdate', check);
-      video.addEventListener('seeked', check);
-      video.addEventListener('loadedmetadata', check);
-      video.addEventListener('playing', check);
-
-      // fallback: enquanto estiver tocando, checa mais “firme”
-      let poll = null;
-      const startPoll = () => {
-        if(poll) return;
-        poll = setInterval(check, 500);
-      };
-      const stopPoll = () => {
-        if(!poll) return;
-        clearInterval(poll);
-        poll = null;
-      };
-
-      video.addEventListener('playing', startPoll);
-      video.addEventListener('pause', stopPoll);
-      video.addEventListener('ended', stopPoll);
-
-      // primeira checagem
-      check();
-
-      return true;
-    }
-
-    // espera o smartplayer montar o vídeo (MutationObserver + tentativas)
-    (function initGate(){
-      const tryBind = () => {
-        if(bindVideoTimeGate()){
-          observer && observer.disconnect();
-          clearInterval(intv);
-        }
-      };
-
-      const observer = new MutationObserver(() => tryBind());
-      observer.observe(document.documentElement, { childList:true, subtree:true });
-
-      const intv = setInterval(tryBind, 500);
-      setTimeout(tryBind, 50);
+        // libera tudo que tiver a classe .esconder no tempo do player
+        player.displayHiddenElements(1597, ['.esconder'], { persist: true });
+      });
     })();
-
-    // mantém seu "tapCatcher" só para garantir o 1º toque no mobile (sem botões no meio)
-    const catcher = document.getElementById('tapCatcher');
-    const playerEl = document.querySelector('vturb-smartplayer');
-
-    function passClickToPlayer(){
-      if(!playerEl) return;
-      catcher.style.display = 'none';
-      setTimeout(() => {
-        try {
-          playerEl.dispatchEvent(new MouseEvent('click', { bubbles:true, cancelable:true, view:window }));
-        } catch(e){}
-      }, 0);
-    }
-
-    if(catcher){
-      catcher.addEventListener('click', () => { passClickToPlayer(); });
-    }
 
     document.getElementById('ctaBtn').addEventListener('click', function(){
       try { fbq('track', 'InitiateCheckout', {}, { eventID: EVENT_ID }); } catch(e){}
@@ -446,5 +348,3 @@
   </script>
 </body>
 </html>
-
-
