@@ -16,7 +16,7 @@
   <link rel="dns-prefetch" href="https://images.converteai.net">
   <link rel="dns-prefetch" href="https://api.vturb.com.br">
 
-  <!-- Meta Pixel (Browser) -->
+  <!-- Meta Pixel -->
   <script>
     !function(f,b,e,v,n,t,s){
       if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -37,7 +37,9 @@
       --g2:#00c853;
       --g3:#00ffa3;
     }
+
     *{ box-sizing:border-box; }
+
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
@@ -47,7 +49,7 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* TARJA (sem quebrar linha) */
+    /* ===== TARJA ===== */
     .topbar{
       position: sticky;
       top: 0;
@@ -58,6 +60,7 @@
       display:flex;
       justify-content:center;
     }
+
     .topbar .inner{
       width:100%;
       max-width: var(--max);
@@ -68,63 +71,68 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .eye{
       width:18px;
       height:18px;
       flex:0 0 18px;
-      display:inline-block;
     }
+
     #liveText{
-      display:block;
-      font-weight: 950;
-      font-size: 13px;
-      letter-spacing: .15px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 0;
+      font-weight:950;
+      font-size:13px;
+      white-space:nowrap;
     }
 
     .wrap{ display:flex; justify-content:center; }
+
     .container{
       width:100%;
       max-width: var(--max);
       padding: 12px 16px 30px;
     }
 
-    /* ✅ bloco do texto mais "centralizado" e com mais respiro à esquerda */
+    /* ===== HERO ===== */
     .hero{
-  padding-left: 0;
-  padding-right: 0;
-  text-align: center; /* ✅ centraliza tudo dentro */
-}
+      text-align:center;
+    }
 
-h1{
-  margin: 8px auto 10px;
-  font-size: 18px;
-  line-height: 1.14;
-  font-weight: 950;
-  text-align: center; /* ✅ headline centralizada */
-}
+    h1{
+      margin: 8px auto 10px;
+      font-size: 18px;
+      line-height: 1.14;
+      font-weight: 950;
+    }
 
-.sub{
-  margin: 0 auto 8px;
-  font-size: 13.8px;
-  line-height: 1.28;
-  font-weight: 850;
-  text-align: center; /* ✅ sub-headline centralizada */
-}
+    /* 🔹 garante quebra controlada por linha */
+    .hline{
+      display:block;
+    }
 
-    /* ✅ "clique no vídeo abaixo" menor, verde e centralizado */
+    /* 🔹 DEGRADÊ VERDE (AQUI ESTAVA FALTANDO) */
+    .money{
+      display:inline-block;
+      font-weight:1000;
+      white-space:nowrap;
+      background: linear-gradient(90deg, var(--g2), var(--g3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .sub{
+      font-size: 9.6px;
+      line-height: 1.3;
+      font-weight: 750;
+    }
+
     .hint{
-      margin: 0 0 12px;
-      text-align: center;
-      font-size: 12.5px;
-      font-weight: 900;
-      letter-spacing: .2px;
+      font-size: 9.6px;
+      font-weight: 800;
       color: #00c853;
     }
 
+    /* ===== VÍDEO ===== */
     .videoCard{
       background: #fff;
       border: 1px solid var(--stroke);
@@ -132,95 +140,67 @@ h1{
       box-shadow: 0 10px 25px rgba(0,0,0,.10);
       padding: 10px;
     }
+
     .videoWrap{
       position: relative;
       border-radius: 14px;
       overflow: hidden;
     }
+
     vturb-smartplayer{
-      width:100% !important;
-      max-width: 400px !important;
+      width:100%!important;
+      max-width:400px!important;
       display:block;
-      margin: 0 auto;
+      margin:0 auto;
     }
 
     .tapCatcher{
       position:absolute;
       inset:0;
-      z-index: 10;
-      background: rgba(0,0,0,0);
-      -webkit-tap-highlight-color: transparent;
+      z-index:10;
+      background:transparent;
     }
 
-    .ctaWrap{ margin-top: 12px; display:none; }
+    /* ===== CTA ===== */
+    .ctaWrap{ margin-top:12px; display:none; }
+
     .btn{
       width:100%;
       border:0;
-      border-radius: 16px;
-      padding: 16px 16px;
-      font-weight: 1000;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      color: #ffffff;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, #00ff8a, #00c853);
-      box-shadow: 0 18px 35px rgba(0,200,83,.28), 0 8px 18px rgba(0,0,0,.12);
-      transition: transform .18s ease;
-    }
-    .btn:active{ transform: scale(.985); }
-    .btn::before{
-      content:"";
-      position:absolute;
-      top:-40%;
-      left:-60%;
-      width:60%;
-      height:180%;
-      transform: rotate(18deg);
-      background: linear-gradient(90deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,.45) 45%,
-        rgba(255,255,255,0) 100%
-      );
-      animation: shine 2.4s ease-in-out infinite;
-      pointer-events:none;
-      mix-blend-mode: overlay;
-    }
-    @keyframes shine{
-      0%   { left:-70%; opacity:0; }
-      30%  { opacity:.65; }
-      100% { left:140%; opacity:0; }
+      border-radius:16px;
+      padding:16px;
+      font-weight:1000;
+      text-transform:uppercase;
+      color:#fff;
+      background:linear-gradient(135deg,#00ff8a,#00c853);
+      box-shadow:0 18px 35px rgba(0,200,83,.28);
     }
 
     .disclaimer{
-      margin-top: 14px;
-      padding: 12px;
-      border-radius: 14px;
-      background: #fbfcfb;
-      border: 1px solid var(--stroke);
-      color: #4e5a54;
-      font-size: 11.5px;
-      line-height: 1.35;
-      font-weight: 650;
+      margin-top:14px;
+      padding:12px;
+      border-radius:14px;
+      background:#fbfcfb;
+      border:1px solid var(--stroke);
+      font-size:11.5px;
     }
+
     footer{
       text-align:center;
-      margin-top: 10px;
-      padding: 8px 0 0;
+      margin-top:10px;
+      font-size:11.5px;
       color:#66726b;
-      font-size: 11.5px;
-      font-weight: 700;
     }
   </style>
 </head>
 
 <body>
-  <div class="topbar" aria-label="Ao vivo">
+
+  <div class="topbar">
     <div class="inner">
-      <svg class="eye" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="white" stroke-width="2" />
-        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" fill="white" opacity="0.9"/>
+      <svg class="eye" viewBox="0 0 24 24" fill="none">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="white" stroke-width="2"/>
+        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" fill="white"/>
       </svg>
       <span id="liveText">Carregando...</span>
     </div>
@@ -231,157 +211,39 @@ h1{
 
       <div class="hero">
         <h1>
-          <span class="hline">3 segredos que fazem pessoas </span>
-          <span class="hline tight">comuns construir renda limpa de</span>
-          <span class="money">370 a 1000 reais por semana!</span>
+          <span class="hline">3 segredos que fazem pessoas comuns</span>
+          <span class="hline">
+            construir renda limpa de
+            <span class="money">370 a 1000 reais por semana!</span>
+          </span>
         </h1>
 
         <p class="sub">
-          Com vídeos anônimos, um sistema automático que vende e um passo a passo simples pelo celular, sem gastar com anúncios.
+          Com vídeos anônimos, um sistema automático que vende e um </span>passo a passo simples pelo celular, sem gastar com anúncios.
         </p>
 
         <p class="hint">Clique no vídeo abaixo</p>
       </div>
 
-      <section class="videoCard" aria-label="Vídeo">
+      <section class="videoCard">
         <div class="videoWrap">
-          <div class="tapCatcher" id="tapCatcher" aria-hidden="true"></div>
-          <vturb-smartplayer id="vid-698f02bb92e29505e05c2a20" style="display:block;margin:0 auto;width:100%;max-width:400px;"></vturb-smartplayer>
+          <div class="tapCatcher" id="tapCatcher"></div>
+          <vturb-smartplayer id="vid-698f02bb92e29505e05c2a20"></vturb-smartplayer>
         </div>
-
-        <script type="text/javascript">
-          var s=document.createElement("script");
-          s.src="https://scripts.converteai.net/f8279a57-9f1e-49b8-9fa3-156aa61fc839/players/698f02bb92e29505e05c2a20/v4/player.js";
-          s.async=!0;document.head.appendChild(s);
-        </script>
       </section>
 
-      <section class="ctaWrap" id="ctaWrap" aria-label="Chamada para ação">
-        <button id="ctaBtn" class="btn" type="button">GARANTIR MINHA VAGA AGORA</button>
+      <section class="ctaWrap" id="ctaWrap">
+        <button id="ctaBtn" class="btn">GARANTIR MINHA VAGA AGORA</button>
       </section>
 
       <div class="disclaimer">
-        <b>Disclaimer:</b> Este site não possui nenhuma associação com a Meta, Facebook, Instagram ou qualquer um de seus ativos.
-        As marcas citadas pertencem aos seus respectivos proprietários e não se responsabilizam por este conteúdo, produtos ou resultados.
+        <b>Disclaimer:</b> Este site não possui nenhuma associação com Meta, Facebook ou Instagram.
       </div>
 
-      <footer>Sistema Viral Anticrise — 2026 — Todos os direitos reservados.</footer>
+      <footer>Sistema Viral Anticrise — 2026</footer>
 
     </main>
   </div>
 
-  <script>
-    const CTA_URL = "https://lastlink.com/p/C0C922361/checkout-payment";
-
-    // ✅ DELAY REAL: 26m37s
-    const DELAY_MS = (26 * 60 + 37) * 1000; // 1597000
-
-    const STORAGE_STARTED_AT = "sv_started_at";
-    const STORAGE_SHOWN = "sv_cta_shown";
-
-    const EVENT_ID = "sv-" + Math.random().toString(36).slice(2);
-
-    // Tarja: variação de "ao vivo"
-    (function(){
-      const el = document.getElementById('liveText');
-      function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-      let n = randInt(696, 820);
-      const t0 = Date.now();
-      const stabilizeAfterMs = 3 * 60 * 1000;
-
-      function updateText(){ el.textContent = `${n} pessoas estão assistindo esse vídeo agora`; }
-      function tick(){
-        const elapsed = Date.now() - t0;
-        if(elapsed >= stabilizeAfterMs){
-          n = (Math.random() < 0.5) ? 903 : 904;
-        } else {
-          const step = randInt(-18, 28);
-          n = Math.max(696, Math.min(940, n + step));
-        }
-        updateText();
-      }
-      tick();
-      setInterval(tick, 10000);
-    })();
-
-    function revealCTAOnce(){
-      localStorage.setItem(STORAGE_SHOWN, "1");
-      document.getElementById('ctaWrap').style.display = 'block';
-      try { fbq('track', 'ViewContent', { content_name: 'CTA Liberado' }, { eventID: EVENT_ID }); } catch(e){}
-    }
-
-    function ensureTimerRunning(){
-      if(localStorage.getItem(STORAGE_SHOWN) === "1"){
-        revealCTAOnce();
-        return;
-      }
-
-      const startedAt = parseInt(localStorage.getItem(STORAGE_STARTED_AT) || "0", 10);
-      if(!startedAt) return;
-
-      const elapsed = Date.now() - startedAt;
-      if(elapsed >= DELAY_MS){
-        revealCTAOnce();
-        return;
-      }
-
-      const remaining = Math.max(0, DELAY_MS - elapsed);
-      clearTimeout(window.__svTimer);
-      window.__svTimer = setTimeout(revealCTAOnce, remaining);
-    }
-
-    function startDelay(){
-      if(!localStorage.getItem(STORAGE_STARTED_AT)){
-        localStorage.setItem(STORAGE_STARTED_AT, String(Date.now()));
-      }
-      ensureTimerRunning();
-    }
-
-    const catcher = document.getElementById('tapCatcher');
-    const playerEl = document.querySelector('vturb-smartplayer');
-
-    function passClickToPlayer(){
-      if(!playerEl) return;
-      catcher.style.display = 'none';
-      setTimeout(() => {
-        try {
-          playerEl.dispatchEvent(new MouseEvent('click', { bubbles:true, cancelable:true, view:window }));
-        } catch(e){}
-      }, 0);
-    }
-
-    if(catcher){
-      catcher.addEventListener('click', () => { startDelay(); passClickToPlayer(); });
-      catcher.addEventListener('pointerdown', () => { startDelay(); }, { passive:true });
-    }
-    if(playerEl){
-      playerEl.addEventListener('click', startDelay);
-      playerEl.addEventListener('pointerdown', startDelay, { passive:true });
-    }
-
-    document.addEventListener('visibilitychange', ensureTimerRunning);
-    window.addEventListener('pageshow', ensureTimerRunning);
-    ensureTimerRunning();
-
-    document.getElementById('ctaBtn').addEventListener('click', function(){
-      try { fbq('track', 'InitiateCheckout', {}, { eventID: EVENT_ID }); } catch(e){}
-
-      try{
-        fetch('/api/capi', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({
-            event_name:'InitiateCheckout',
-            event_id: EVENT_ID,
-            event_source_url: window.location.href
-          })
-        });
-      } catch(e){}
-
-      window.location.href = CTA_URL;
-    });
-  </script>
 </body>
 </html>
-
-
